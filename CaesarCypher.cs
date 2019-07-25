@@ -53,8 +53,8 @@ namespace caesar_cypher_file_IO_final
             {
                 plainVal += 26;
             }
-            char plainChar = (char)(encVal + 65);
-            return encChar;
+            char plainChar = (char)(plainVal + 65);
+            return plainChar;
         }
 
         //Takes a line; encrypts and checks if special character cases; returns encrypted line
