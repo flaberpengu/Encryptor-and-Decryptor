@@ -105,13 +105,12 @@ namespace caesar_cypher_file_IO_final
                 SetOutputText(formattedText);
                 if ((methodCB.Text).Equals("Encrypt File"))
                 {
-                    fw.GivePath(outputFilepath, true);
+                    fw.WriteToFile(outputFilepath, formattedText, true);
                 }
                 else if ((methodCB.Text).Equals("Decrypt File"))
                 {
-                    fw.GivePath(outputFilepath, false);
+                    fw.WriteToFile(outputFilepath, formattedText, false);
                 }
-                fw.WriteData();
             }
             catch (FileNotFoundException exception)
             {
@@ -135,53 +134,6 @@ namespace caesar_cypher_file_IO_final
                 SetOutputPathText();
             }
             openOutputFolderDialog.Dispose();
-        }
-    }
-    class FileWriter
-    {
-        private string path;
-        private List<String> formattedList = new List<string>();
-        public List<String> FormatText(string[][] unfText)
-        {
-            formattedList.Clear();
-            for (int i = 0; i < unfText.Length; i++)
-            {
-                string temp = "";
-                for (int j = 0; j < unfText[i].Length; j++)
-                {
-                    temp = temp + (unfText[i][j]) + " ";
-                }
-                formattedList.Add(temp);
-            }
-            return formattedList;
-        }
-        public void WriteData()
-        {
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                for (int i = 0; i < formattedList.Count; i++)
-                {
-                    sw.WriteLine(formattedList[i]);
-                }
-                sw.Close();
-            }
-        }
-        private void SortPath(bool encrypt)
-        {
-            switch (encrypt)
-            {
-                case (true):
-                    path += "\\encryptedtext.txt";
-                    break;
-                case (false):
-                    path += "\\plaintext.txt";
-                    break;
-            }
-        }
-        public void GivePath(string p, bool encrypt)
-        {
-            path = p;
-            SortPath(encrypt);
         }
     }
 }
