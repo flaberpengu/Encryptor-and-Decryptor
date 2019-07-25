@@ -15,7 +15,6 @@ namespace caesar_cypher_file_IO_final
     {
         //Declare variables needed in program
         private FileReader fr;
-        private string[][] mdArray;
         private int shiftBy;
         private FileWriter fw;
         private List<String> formattedText;
@@ -81,12 +80,10 @@ namespace caesar_cypher_file_IO_final
             try
             {
                 ClearOutputText();
-                fr.GiveFilePath(filepath);
-                //mdArray = fr.SplitStrings();
                 shiftBy = Convert.ToInt32(shiftByUD.Value);
                 if ((methodCB.Text).Equals("Encrypt File"))
                 {
-                    plainText = fr.ReadData();
+                    plainText = fr.ReadData(filepath);
                     for (int i = 0; i < plainText.Count; i++)
                     {
                         encryptedText.Add(cc.EncryptLine(plainText[i], shiftBy));
@@ -95,10 +92,10 @@ namespace caesar_cypher_file_IO_final
                 }
                 else if ((methodCB.Text).Equals("Decrypt File"))
                 {
-                    encryptedText = fr.ReadData();
+                    encryptedText = fr.ReadData(filepath);
                     for (int i = 0; i < encryptedText.Count; i++)
                     {
-                        plainText.Add(cc.EncryptLine(encryptedText[i], shiftBy));
+                        plainText.Add(cc.DecryptLine(encryptedText[i], shiftBy));
                     }
                     formattedText = plainText;
                 }
@@ -136,42 +133,6 @@ namespace caesar_cypher_file_IO_final
                 SetOutputPathText();
             }
             openOutputFolderDialog.Dispose();
-        }
-    }
-    class FileReader
-    {
-        private string inputpath;
-        private List<String> myText = new List<string>();
-        private string[] splitters = { " ", ",", ", ", "!", "?", "-", ".", "(", ")", ":", ";", "'", "/", "\"", "\n" };
-        //private string[] splitters = { " ", "\n" };
-        public List<String> ReadData()
-        {
-            myText.Clear();
-            using (StreamReader sr = new StreamReader(inputpath))
-            {
-                while (!sr.EndOfStream)
-                {
-                    myText.Add(sr.ReadLine());
-                }
-                sr.Close();
-            }
-            return myText;
-        }
-        public string[][] SplitStrings()
-        {
-            string[] mySplitText = myText.ToArray();
-            string[][] mdArray = new string[mySplitText.Length][];
-            string temp;
-            for (int i = 0; i < mySplitText.Length; i++)
-            {
-                temp = String.Join("", mySplitText[i]);
-                mdArray[i] = temp.Split(splitters, StringSplitOptions.RemoveEmptyEntries);
-            }
-            return mdArray;
-        }
-        public void GiveFilePath(string path)
-        {
-            inputpath = path;
         }
     }
     class FileWriter
