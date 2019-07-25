@@ -79,6 +79,8 @@ namespace caesar_cypher_file_IO_final
         {
             try
             {
+                plainText.Clear();
+                encryptedText.Clear();
                 ClearOutputText();
                 shiftBy = Convert.ToInt32(shiftByUD.Value);
                 if ((methodCB.Text).Equals("Encrypt File"))
