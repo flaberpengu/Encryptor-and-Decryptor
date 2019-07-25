@@ -17,7 +17,7 @@ namespace caesar_cypher_file_IO_final
         private FileReader fr;
         private int shiftBy;
         private FileWriter fw;
-        private List<String> formattedText;
+        private List<String> formattedText = new List<String>();
         private OpenFileDialog openFileDialog1;
         private CaesarCypher cc;
         private string filepath;
@@ -25,6 +25,7 @@ namespace caesar_cypher_file_IO_final
         private FolderBrowserDialog openOutputFolderDialog;
         private List<String> plainText = new List<String>();
         private List<String> encryptedText = new List<String>();
+
         //Constructor
         public Form1()
         {
@@ -33,27 +34,32 @@ namespace caesar_cypher_file_IO_final
             cc = new CaesarCypher();
             fw = new FileWriter();
         }
+
         //Opens input file dialog form
         private void OpenFileDialogForm()
         {
             openFileDialog1 = new OpenFileDialog();
             { openFileDialog1.Filter = "Text files (*.txt)|*.txt"; openFileDialog1.Title = "Open text file"; };
         }
+
         //Sets input file path in the input file textbox
         private void SetPathText()
         {
             filePathTextbox.Text = filepath;
         }
+
         //Opens output folder dialog form
         private void OpenOutputFolderDialogForm()
         {
             openOutputFolderDialog = new FolderBrowserDialog();
         }
+
         //Sets output folder path in the output folder textbox
         private void SetOutputPathText()
         {
             outputPathTextbox.Text = outputFilepath;
         }
+
         //Action to run upon clicking input file select button
         private void FileSelectButton_Click(object sender, EventArgs e)
         {
@@ -67,6 +73,8 @@ namespace caesar_cypher_file_IO_final
             //Clears dialog form
             openFileDialog1.Dispose();
         }
+
+        //Puts output text into textbox
         private void SetOutputText(List<String> formText)
         {
             outputTextbox.Text = String.Join(Environment.NewLine, formText);
@@ -79,6 +87,7 @@ namespace caesar_cypher_file_IO_final
         {
             try
             {
+                formattedText.Clear();
                 plainText.Clear();
                 encryptedText.Clear();
                 ClearOutputText();
@@ -88,18 +97,16 @@ namespace caesar_cypher_file_IO_final
                     plainText = fr.ReadData(filepath);
                     for (int i = 0; i < plainText.Count; i++)
                     {
-                        encryptedText.Add(cc.EncryptLine(plainText[i], shiftBy));
+                        formattedText.Add(cc.EncryptLine(plainText[i], shiftBy));
                     }
-                    formattedText = encryptedText;
                 }
                 else if ((methodCB.Text).Equals("Decrypt File"))
                 {
                     encryptedText = fr.ReadData(filepath);
                     for (int i = 0; i < encryptedText.Count; i++)
                     {
-                        plainText.Add(cc.DecryptLine(encryptedText[i], shiftBy));
+                        formattedText.Add(cc.DecryptLine(encryptedText[i], shiftBy));
                     }
-                    formattedText = plainText;
                 }
                 //formattedText = fw.FormatText(mdArray);
                 SetOutputText(formattedText);
