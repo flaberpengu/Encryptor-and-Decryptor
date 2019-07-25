@@ -34,6 +34,21 @@ namespace caesar_cypher_file_IO_final
             return isPunctuation;
         }
 
+        //Checks if character is number; if so, returns true
+        private bool IsNumber(char ch)
+        {
+            bool isNumber = false;
+            String[] numbers = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+            foreach (string number in numbers)
+            {
+                if ((ch.ToString()).Equals(number))
+                {
+                    isNumber = true;
+                }
+            }
+            return isNumber;
+        }
+
         //Encrypts a character by a given integer; returns encrypted character
         private char ShiftPTE(char plainChar, int shiftBy)
         {
@@ -64,13 +79,9 @@ namespace caesar_cypher_file_IO_final
             string encryptedLine = "";
             for (int i = 0; i < line.Length; i++)
             {
-                if (IsPunctuation(line[i]))
+                if (IsPunctuation(line[i]) || IsNumber(line[i]) || IsWhiteSpace(line[i]))
                 {
                     encryptedLine += line[i];
-                }
-                else if (IsWhiteSpace(line[i]))
-                {
-                    encryptedLine += " ";
                 }
                 else
                 {
