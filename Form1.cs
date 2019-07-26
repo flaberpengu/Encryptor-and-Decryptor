@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace caesar_cypher_file_IO_final
+namespace Encryptor_and_Decryptor
 {
     public partial class Form1 : Form
     {

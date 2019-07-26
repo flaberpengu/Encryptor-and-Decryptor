@@ -1,4 +1,4 @@
-﻿namespace caesar_cypher_file_IO_final
+﻿namespace Encryptor_and_Decryptor
 {
     partial class Form1
     {

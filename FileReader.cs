@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace caesar_cypher_file_IO_final
+namespace Encryptor_and_Decryptor
 {
     class FileReader
     {

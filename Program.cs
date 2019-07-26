@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace caesar_cypher_file_IO_final
+namespace Encryptor_and_Decryptor
 {
     static class Program
     {
