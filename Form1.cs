@@ -73,6 +73,11 @@ namespace Encryptor_and_Decryptor
             outputTextbox.Clear();
         }
 
+        private void RunEncryptionMethod()
+        {
+            if ()
+        }
+
         //Action run upon clicking the convert button
         private void convertButton_Click(object sender, EventArgs e)
         {
@@ -146,5 +151,19 @@ namespace Encryptor_and_Decryptor
             }
             openOutputFolderDialog.Dispose();
         }
+
+        private void ConversionMethodCB_TextChanged(object sender, EventArgs e)
+        {
+            if ((conversionMethodCB.Text).Equals("Caesar Cypher"))
+            {
+                keywordTextbox.ReadOnly = true;
+            }
+            else if((conversionMethodCB.Text).Equals("Keyword Encryption"))
+            {
+                keywordTextbox.ReadOnly = false;
+            }
+        }
     }
 }
+//RUN METHODS
+//CREATE KEYWORD CYPHER CLASS

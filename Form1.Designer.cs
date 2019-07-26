@@ -40,12 +40,16 @@
             this.methodCB = new System.Windows.Forms.ComboBox();
             this.ConversionLabel = new System.Windows.Forms.Label();
             this.FileLabel = new System.Windows.Forms.Label();
+            this.methodLabel = new System.Windows.Forms.Label();
+            this.conversionMethodCB = new System.Windows.Forms.ComboBox();
+            this.keywordLabel = new System.Windows.Forms.Label();
+            this.keywordTextbox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.shiftByUD)).BeginInit();
             this.SuspendLayout();
             // 
             // outputFileSelectButton
             // 
-            this.outputFileSelectButton.Location = new System.Drawing.Point(704, 231);
+            this.outputFileSelectButton.Location = new System.Drawing.Point(704, 373);
             this.outputFileSelectButton.Name = "outputFileSelectButton";
             this.outputFileSelectButton.Size = new System.Drawing.Size(50, 51);
             this.outputFileSelectButton.TabIndex = 23;
@@ -55,7 +59,7 @@
             // 
             // outputPathTextbox
             // 
-            this.outputPathTextbox.Location = new System.Drawing.Point(199, 231);
+            this.outputPathTextbox.Location = new System.Drawing.Point(199, 373);
             this.outputPathTextbox.Multiline = true;
             this.outputPathTextbox.Name = "outputPathTextbox";
             this.outputPathTextbox.ReadOnly = true;
@@ -67,7 +71,7 @@
             // 
             this.outputFileLabel.AutoSize = true;
             this.outputFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.outputFileLabel.Location = new System.Drawing.Point(26, 244);
+            this.outputFileLabel.Location = new System.Drawing.Point(26, 386);
             this.outputFileLabel.Name = "outputFileLabel";
             this.outputFileLabel.Size = new System.Drawing.Size(113, 25);
             this.outputFileLabel.TabIndex = 21;
@@ -75,7 +79,7 @@
             // 
             // convertButton
             // 
-            this.convertButton.Location = new System.Drawing.Point(199, 338);
+            this.convertButton.Location = new System.Drawing.Point(199, 480);
             this.convertButton.Name = "convertButton";
             this.convertButton.Size = new System.Drawing.Size(143, 66);
             this.convertButton.TabIndex = 20;
@@ -97,7 +101,7 @@
             // 
             // shiftByUD
             // 
-            this.shiftByUD.Location = new System.Drawing.Point(199, 181);
+            this.shiftByUD.Location = new System.Drawing.Point(199, 323);
             this.shiftByUD.Name = "shiftByUD";
             this.shiftByUD.Size = new System.Drawing.Size(54, 20);
             this.shiftByUD.TabIndex = 18;
@@ -106,7 +110,7 @@
             // 
             this.shiftByLabel.AutoSize = true;
             this.shiftByLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.shiftByLabel.Location = new System.Drawing.Point(26, 179);
+            this.shiftByLabel.Location = new System.Drawing.Point(26, 321);
             this.shiftByLabel.Name = "shiftByLabel";
             this.shiftByLabel.Size = new System.Drawing.Size(85, 25);
             this.shiftByLabel.TabIndex = 17;
@@ -164,11 +168,56 @@
             this.FileLabel.TabIndex = 12;
             this.FileLabel.Text = "Input File:";
             // 
+            // methodLabel
+            // 
+            this.methodLabel.AutoSize = true;
+            this.methodLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.methodLabel.Location = new System.Drawing.Point(26, 192);
+            this.methodLabel.Name = "methodLabel";
+            this.methodLabel.Size = new System.Drawing.Size(84, 25);
+            this.methodLabel.TabIndex = 24;
+            this.methodLabel.Text = "Method:";
+            // 
+            // conversionMethodCB
+            // 
+            this.conversionMethodCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.conversionMethodCB.FormattingEnabled = true;
+            this.conversionMethodCB.Items.AddRange(new object[] {
+            "Caesar Cypher",
+            "Keyword Encryption"});
+            this.conversionMethodCB.Location = new System.Drawing.Point(199, 192);
+            this.conversionMethodCB.Name = "conversionMethodCB";
+            this.conversionMethodCB.Size = new System.Drawing.Size(146, 21);
+            this.conversionMethodCB.TabIndex = 25;
+            this.conversionMethodCB.TextChanged += new System.EventHandler(this.ConversionMethodCB_TextChanged);
+            // 
+            // keywordLabel
+            // 
+            this.keywordLabel.AutoSize = true;
+            this.keywordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.keywordLabel.Location = new System.Drawing.Point(26, 255);
+            this.keywordLabel.Name = "keywordLabel";
+            this.keywordLabel.Size = new System.Drawing.Size(95, 25);
+            this.keywordLabel.TabIndex = 26;
+            this.keywordLabel.Text = "Keyword:";
+            // 
+            // keywordTextbox
+            // 
+            this.keywordTextbox.Location = new System.Drawing.Point(199, 257);
+            this.keywordTextbox.Name = "keywordTextbox";
+            this.keywordTextbox.ReadOnly = true;
+            this.keywordTextbox.Size = new System.Drawing.Size(504, 20);
+            this.keywordTextbox.TabIndex = 27;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1894, 1006);
+            this.Controls.Add(this.keywordTextbox);
+            this.Controls.Add(this.keywordLabel);
+            this.Controls.Add(this.conversionMethodCB);
+            this.Controls.Add(this.methodLabel);
             this.Controls.Add(this.outputFileSelectButton);
             this.Controls.Add(this.outputPathTextbox);
             this.Controls.Add(this.outputFileLabel);
@@ -203,6 +252,10 @@
         private System.Windows.Forms.ComboBox methodCB;
         private System.Windows.Forms.Label ConversionLabel;
         private System.Windows.Forms.Label FileLabel;
+        private System.Windows.Forms.Label methodLabel;
+        private System.Windows.Forms.ComboBox conversionMethodCB;
+        private System.Windows.Forms.Label keywordLabel;
+        private System.Windows.Forms.TextBox keywordTextbox;
     }
 }
 
