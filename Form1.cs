@@ -19,7 +19,6 @@ namespace Encryptor_and_Decryptor
         private FileWriter fw;
         private List<String> formattedText = new List<String>();
         private OpenFileDialog openFileDialog1;
-        private CaesarCypher cc;
         private string filepath;
         private string outputFilepath;
         private FolderBrowserDialog openOutputFolderDialog;
@@ -31,7 +30,6 @@ namespace Encryptor_and_Decryptor
         {
             InitializeComponent();
             fr = new FileReader();
-            cc = new CaesarCypher();
             fw = new FileWriter();
         }
 
@@ -60,37 +58,28 @@ namespace Encryptor_and_Decryptor
             outputPathTextbox.Text = outputFilepath;
         }
 
-        //Action to run upon clicking input file select button
-        private void FileSelectButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialogForm();
-            //If file is chosen and returned correctly, do actions
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                filepath = openFileDialog1.FileName;
-                SetPathText();
-            }
-            //Clears dialog form
-            openFileDialog1.Dispose();
-        }
-
         //Puts output text into textbox
         private void SetOutputText(List<String> formText)
         {
             outputTextbox.Text = String.Join(Environment.NewLine, formText);
         }
-        private void ClearOutputText()
+
+        //Clears lists and output text
+        private void ClearVariables()
         {
+            formattedText.Clear();
+            plainText.Clear();
+            encryptedText.Clear();
             outputTextbox.Clear();
         }
+
+        //Action run upon clicking the convert button
         private void convertButton_Click(object sender, EventArgs e)
         {
             try
             {
-                formattedText.Clear();
-                plainText.Clear();
-                encryptedText.Clear();
-                ClearOutputText();
+                CaesarCypher cc = new CaesarCypher();
+                ClearVariables();
                 shiftBy = Convert.ToInt32(shiftByUD.Value);
                 if ((methodCB.Text).Equals("Encrypt File"))
                 {
@@ -108,7 +97,6 @@ namespace Encryptor_and_Decryptor
                         formattedText.Add(cc.DecryptLine(encryptedText[i], shiftBy));
                     }
                 }
-                //formattedText = fw.FormatText(mdArray);
                 SetOutputText(formattedText);
                 if ((methodCB.Text).Equals("Encrypt File"))
                 {
@@ -132,6 +120,22 @@ namespace Encryptor_and_Decryptor
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        //Action to run upon clicking input file select button
+        private void FileSelectButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialogForm();
+            //If file is chosen and returned correctly, do actions
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                filepath = openFileDialog1.FileName;
+                SetPathText();
+            }
+            //Clears dialog form
+            openFileDialog1.Dispose();
+        }
+
+        //Action to run upon clicking output folder select button
         private void OutputFileSelectButton_Click(object sender, EventArgs e)
         {
             OpenOutputFolderDialogForm();
