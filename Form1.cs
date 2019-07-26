@@ -15,15 +15,14 @@ namespace Encryptor_and_Decryptor
     {
         //Declare variables needed in program
         private FileReader fr;
-        private int shiftBy;
         private FileWriter fw;
         private List<String> formattedText = new List<String>();
         private OpenFileDialog openFileDialog1;
         private string filepath;
         private string outputFilepath;
         private FolderBrowserDialog openOutputFolderDialog;
-        private List<String> plainText = new List<String>();
-        private List<String> encryptedText = new List<String>();
+        private List<String> firstText = new List<String>();
+        private string method = "none";
 
         //Constructor
         public Form1()
@@ -68,48 +67,65 @@ namespace Encryptor_and_Decryptor
         private void ClearVariables()
         {
             formattedText.Clear();
-            plainText.Clear();
-            encryptedText.Clear();
+            firstText.Clear();
             outputTextbox.Clear();
         }
 
-        private void RunEncryptionMethod()
+        /*private void RunEncryptionMethod()
         {
             if ()
-        }
+        }*/
 
         //Action run upon clicking the convert button
         private void convertButton_Click(object sender, EventArgs e)
         {
             try
             {
-                CaesarCypher cc = new CaesarCypher();
                 ClearVariables();
-                shiftBy = Convert.ToInt32(shiftByUD.Value);
-                if ((methodCB.Text).Equals("Encrypt File"))
+                firstText = fr.ReadData(filepath);
+                switch (method)
                 {
-                    plainText = fr.ReadData(filepath);
-                    for (int i = 0; i < plainText.Count; i++)
-                    {
-                        formattedText.Add(cc.EncryptLine(plainText[i], shiftBy));
-                    }
-                }
-                else if ((methodCB.Text).Equals("Decrypt File"))
-                {
-                    encryptedText = fr.ReadData(filepath);
-                    for (int i = 0; i < encryptedText.Count; i++)
-                    {
-                        formattedText.Add(cc.DecryptLine(encryptedText[i], shiftBy));
-                    }
+                    case ("caesar"):
+                        CaesarCypher cc = new CaesarCypher();
+                        int shiftBy = Convert.ToInt32(shiftByUD.Value);
+                        switch (methodCB.Text)
+                        {
+                            case ("Encrypt File"):
+                                for (int i = 0; i < firstText.Count; i++)
+                                {
+                                    formattedText.Add(cc.EncryptLine(firstText[i], shiftBy));
+                                }
+                                break;
+                            case ("Decrypt File"):
+                                for (int i = 0; i < firstText.Count; i++)
+                                {
+                                    formattedText.Add(cc.DecryptLine(firstText[i], shiftBy));
+                                }
+                                break;
+                        }
+                        break;
+                    case ("keyword"):
+                        //KeywordEncryption ke = new KeywordEncryption();
+                        string keyword = keywordTextbox.Text;
+                        switch (methodCB.Text)
+                        {
+                            case ("Encrypt File"):
+                                formattedText = ke.Encrypt(firstText, keyword);
+                                break;
+                            case ("Decrypt File"):
+                                formattedText = ke.Decrypt(firstText, keyword);
+                                break;
+                        }
+                        break;
                 }
                 SetOutputText(formattedText);
                 if ((methodCB.Text).Equals("Encrypt File"))
                 {
-                    fw.WriteToFile(outputFilepath, formattedText, true);
+                    fw.WriteToFile(outputFilepath, formattedText, true, method);
                 }
                 else if ((methodCB.Text).Equals("Decrypt File"))
                 {
-                    fw.WriteToFile(outputFilepath, formattedText, false);
+                    fw.WriteToFile(outputFilepath, formattedText, false, method);
                 }
             }
             catch (FileNotFoundException exception)
@@ -157,10 +173,12 @@ namespace Encryptor_and_Decryptor
             if ((conversionMethodCB.Text).Equals("Caesar Cypher"))
             {
                 keywordTextbox.ReadOnly = true;
+                method = "caesar";
             }
             else if((conversionMethodCB.Text).Equals("Keyword Encryption"))
             {
                 keywordTextbox.ReadOnly = false;
+                method = "keyword";
             }
         }
     }

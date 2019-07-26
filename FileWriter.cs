@@ -23,9 +23,10 @@ namespace Encryptor_and_Decryptor
             }
             return path;
         }
-        public void WriteToFile(string p, List<String> myText, bool encrypt)
+        public void WriteToFile(string p, List<String> myText, bool encrypt, string method)
         {
             string path = GetPath(p, encrypt);
+            if (method.Equals("caesar"))
             using (StreamWriter sw = new StreamWriter(path))
             {
                 for(int i = 0; i < myText.Count; i++)
