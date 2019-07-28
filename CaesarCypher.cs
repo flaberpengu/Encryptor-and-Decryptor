@@ -98,13 +98,9 @@ namespace Encryptor_and_Decryptor
             string decryptedLine = "";
             for (int i = 0; i < line.Length; i++)
             {
-                if (IsPunctuation(line[i]))
+                if (IsPunctuation(line[i]) || IsNumber(line[i]) || IsWhiteSpace(line[i]))
                 {
                     decryptedLine += line[i];
-                }
-                else if (IsWhiteSpace(line[i]))
-                {
-                    decryptedLine += " ";
                 }
                 else
                 {
