@@ -105,7 +105,7 @@ namespace Encryptor_and_Decryptor
                         }
                         break;
                     case ("keyword"):
-                        //KeywordEncryption ke = new KeywordEncryption();
+                        KeywordEncryption ke = new KeywordEncryption();
                         string keyword = keywordTextbox.Text;
                         switch (methodCB.Text)
                         {
