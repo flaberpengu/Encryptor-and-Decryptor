@@ -101,6 +101,7 @@
             // 
             // shiftByUD
             // 
+            this.shiftByUD.Enabled = false;
             this.shiftByUD.Location = new System.Drawing.Point(199, 323);
             this.shiftByUD.Name = "shiftByUD";
             this.shiftByUD.Size = new System.Drawing.Size(54, 20);

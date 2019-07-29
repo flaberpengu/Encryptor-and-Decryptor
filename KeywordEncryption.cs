@@ -54,8 +54,11 @@ namespace Encryptor_and_Decryptor
             int initialVal = char.ToUpper(initialChar) - 64;
             int keyVal = char.ToUpper(keyChar) - 64;
             int combinedVal = initialVal + keyVal;
-            combinedVal %= 27;
-            combinedVal++;
+            if (combinedVal > 26)
+            {
+                combinedVal %= 27;
+                combinedVal++;
+            }
             char finalChar = (char)(combinedVal + 64);
             return finalChar;
         }
@@ -143,6 +146,4 @@ namespace Encryptor_and_Decryptor
         }
     }
 }
-//FIX KE (ENCRYPT AND) DECRYPT
-//CHANGE DEFAULT TO ALL DISABLED OPTIONS
 //ADD CLEAR BUTTON (AFTER MERGING)
