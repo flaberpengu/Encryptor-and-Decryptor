@@ -20,7 +20,7 @@ namespace Encryptor_and_Decryptor
         private OpenFileDialog openFileDialog1;
         private string filepath;
         private string outputFilepath;
-        private FolderBrowserDialog openOutputFolderDialog;
+        private OpenFileDialog openOutputFileDialog;
         private List<String> firstText = new List<String>();
         private string method = "none";
         private bool invalid;
@@ -47,9 +47,10 @@ namespace Encryptor_and_Decryptor
         }
 
         //Opens output folder dialog form
-        private void OpenOutputFolderDialogForm()
+        private void OpenOutputFileDialogForm()
         {
-            openOutputFolderDialog = new FolderBrowserDialog();
+            openOutputFileDialog = new OpenFileDialog();
+            { openOutputFileDialog.Filter = "Text files (*.txt)|*.txt"; openOutputFileDialog.Title = "Open text file"; };
         }
 
         //Sets output folder path in the output folder textbox
@@ -169,14 +170,7 @@ namespace Encryptor_and_Decryptor
                 }
                 SetOutputText(formattedText);
                 //Writes converted text to file
-                if ((methodCB.Text).Equals("Encrypt File"))
-                {
-                    fw.WriteToFile(outputFilepath, formattedText, true);
-                }
-                else if ((methodCB.Text).Equals("Decrypt File"))
-                {
-                    fw.WriteToFile(outputFilepath, formattedText, false);
-                }
+                fw.WriteToFile(outputFilepath, formattedText);
             }
             //Catch exceptions, display messages
             catch (FileNotFoundException exception)
@@ -210,13 +204,13 @@ namespace Encryptor_and_Decryptor
         //Action to run upon clicking output folder select button
         private void OutputFileSelectButton_Click(object sender, EventArgs e)
         {
-            OpenOutputFolderDialogForm();
-            if (openOutputFolderDialog.ShowDialog() == DialogResult.OK)
+            OpenOutputFileDialogForm();
+            if (openOutputFileDialog.ShowDialog() == DialogResult.OK)
             {
-                outputFilepath = openOutputFolderDialog.SelectedPath;
+                outputFilepath = openOutputFileDialog.FileName;
                 SetOutputPathText();
             }
-            openOutputFolderDialog.Dispose();
+            openOutputFileDialog.Dispose();
         }
 
         //Runs when text is changed in ConversionMethodCB
