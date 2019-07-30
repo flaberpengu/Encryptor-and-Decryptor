@@ -182,16 +182,30 @@ namespace Encryptor_and_Decryptor
             {
                 shiftByUD.Enabled = true;
                 keywordTextbox.ReadOnly = true;
+                keywordTextbox.Clear();
                 method = "caesar";
             }
             else if((conversionMethodCB.Text).Equals("Keyword Encryption"))
             {
                 shiftByUD.Enabled = false;
                 keywordTextbox.ReadOnly = false;
+                shiftByUD.Value = 0;
                 method = "keyword";
             }
         }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            outputTextbox.Clear();
+            filePathTextbox.Clear();
+            outputPathTextbox.Clear();
+            conversionMethodCB.SelectedItem = null;
+            method = "";
+            methodCB.SelectedItem = null;
+            keywordTextbox.Clear();
+            shiftByUD.Value = 0;
+            keywordTextbox.ReadOnly = true;
+            shiftByUD.Enabled = false;
+        }
     }
 }
-//RUN METHODS
-//CREATE KEYWORD CYPHER CLASS

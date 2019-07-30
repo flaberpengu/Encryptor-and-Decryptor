@@ -44,6 +44,7 @@
             this.conversionMethodCB = new System.Windows.Forms.ComboBox();
             this.keywordLabel = new System.Windows.Forms.Label();
             this.keywordTextbox = new System.Windows.Forms.TextBox();
+            this.clearButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.shiftByUD)).BeginInit();
             this.SuspendLayout();
             // 
@@ -210,11 +211,22 @@
             this.keywordTextbox.Size = new System.Drawing.Size(504, 20);
             this.keywordTextbox.TabIndex = 27;
             // 
+            // clearButton
+            // 
+            this.clearButton.Location = new System.Drawing.Point(427, 480);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(143, 66);
+            this.clearButton.TabIndex = 28;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1894, 1006);
+            this.Controls.Add(this.clearButton);
             this.Controls.Add(this.keywordTextbox);
             this.Controls.Add(this.keywordLabel);
             this.Controls.Add(this.conversionMethodCB);
@@ -257,6 +269,7 @@
         private System.Windows.Forms.ComboBox conversionMethodCB;
         private System.Windows.Forms.Label keywordLabel;
         private System.Windows.Forms.TextBox keywordTextbox;
+        private System.Windows.Forms.Button clearButton;
     }
 }
 
