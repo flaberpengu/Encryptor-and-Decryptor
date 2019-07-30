@@ -49,11 +49,14 @@ namespace Encryptor_and_Decryptor
             return isNumber;
         }
 
+        //Adds characters (encrypts characters)
         private char AddChars(char initialChar, char keyChar)
         {
+            //Gets values of both characters
             int initialVal = char.ToUpper(initialChar) - 64;
             int keyVal = char.ToUpper(keyChar) - 64;
             int combinedVal = initialVal + keyVal;
+            //Makes characters 'wrap around' from Z to A
             if (combinedVal > 26)
             {
                 combinedVal %= 27;
@@ -63,11 +66,14 @@ namespace Encryptor_and_Decryptor
             return finalChar;
         }
 
+        //Subtracts characters (decrypts characters)
         private char SubChars(char initialChar, char keyChar)
         {
+            //Gets values of both characters
             int initialVal = char.ToUpper(initialChar) - 64;
             int keyVal = char.ToUpper(keyChar) - 64;
             int combinedVal = initialVal - keyVal;
+            //Makes characters 'wrap around' from A to Z
             if (combinedVal <= 0)
             {
                 combinedVal += 26;
@@ -76,6 +82,7 @@ namespace Encryptor_and_Decryptor
             return finalChar;
         }
 
+        //Converts an array of strings to a list of strings
         private List<String> ArrayToList(string[] original)
         {
             List<String> final = new List<string>();
@@ -85,20 +92,26 @@ namespace Encryptor_and_Decryptor
             }
             return final;
         }
+
+        //Takes text, encrypts it, returns List
         public List<String> Encrypt(List<String> firstText, string keyword)
         {
+            //Joins lines of text so encryption is easier (uses joiner that is highly unlikely to occur in any text file)
             string allText = String.Join("@'@#@#@#@!><", firstText);
             string[] splitters = { "@'@#@#@#@!><" };
             string newText = "";
-            List<String> newTextList = new List<String>();
+            List<String> newTextList;
+            //Splits keyword up into individual chars so that looping is easier later
             Char[] keywordChars = new Char[keyword.Length];
             for (int i = 0; i < keyword.Length; i++)
             {
                 keywordChars[i] = keyword[i];
             }
+            //count is the variable that tracks which keyword character will be used
             int count = 0;
             for (int i = 0; i < allText.Length; i++)
             {
+                //If char is non-alphabetical, put into text as is
                 if (IsWhiteSpace(allText[i]) || IsNumber(allText[i]) || IsPunctuation(allText[i]))
                 {
                     newText += (allText[i]);
@@ -107,28 +120,35 @@ namespace Encryptor_and_Decryptor
                 {
                     newText += AddChars(allText[i], keyword[count]);
                 }
+                //Increment count, MOD to loop back to 0 if needed
                 count++;
                 count %= ((keyword.Length) - 1);
             }
+            //Puts into array using splitter, converts to list
             string[] newTextArray = newText.Split(splitters, StringSplitOptions.RemoveEmptyEntries);
             newTextList = ArrayToList(newTextArray);
             return newTextList;
         }
 
+        //Takes text, decrypts it, returns list
         public List<String> Decrypt(List<String> firstText, string keyword)
         {
+            //Joins lines of text so encryption is easier (uses joiner that is highly unlikely to occur in any text file)
             string allText = String.Join("@'@#@#@#@!><", firstText);
             string[] splitters = { "@'@#@#@#@!><" };
             string newText = "";
-            List<String> newTextList = new List<String>();
+            List<String> newTextList;
+            //Splits keyword up into individual chars so that looping is easier later
             Char[] keywordChars = new Char[keyword.Length];
             for (int i = 0; i < keyword.Length; i++)
             {
                 keywordChars[i] = keyword[i];
             }
+            //count is the variable that tracks which keyword character will be used
             int count = 0;
             for (int i = 0; i < allText.Length; i++)
             {
+                //If char is non-alphabetical, put into text as is
                 if (IsWhiteSpace(allText[i]) || IsNumber(allText[i]) || IsPunctuation(allText[i]))
                 {
                     newText += (allText[i]);
@@ -137,21 +157,26 @@ namespace Encryptor_and_Decryptor
                 {
                     newText += SubChars(allText[i], keyword[count]);
                 }
+                //Increment count, MOD to loop back to 0 if needed
                 count++;
                 count %= ((keyword.Length) - 1);
             }
+            //Puts into array using splitter, converts to list
             string[] newTextArray = newText.Split(splitters, StringSplitOptions.RemoveEmptyEntries);
             newTextList = ArrayToList(newTextArray);
             return newTextList;
         }
 
+        //Public method to check if keyword is invalid
         public bool CheckKeyword(bool invalid, string keyword)
         {
+            //Splits keyword into individual chars
             char[] keyChars = new char[keyword.Length];
             for (int i = 0; i < keyword.Length; i++)
             {
                 keyChars[i] = keyword[i];
             }
+            //Keywords should only contain letters
             foreach (char ch in keyChars)
             {
                 if (IsWhiteSpace(ch) || IsPunctuation(ch) || IsNumber(ch))
@@ -163,4 +188,3 @@ namespace Encryptor_and_Decryptor
         }
     }
 }
-//CHANGE FOLDER LOCATION TO FILE?

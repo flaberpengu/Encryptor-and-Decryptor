@@ -80,13 +80,13 @@
             // 
             // convertButton
             // 
-            this.convertButton.Location = new System.Drawing.Point(199, 480);
+            this.convertButton.Location = new System.Drawing.Point(199, 481);
             this.convertButton.Name = "convertButton";
             this.convertButton.Size = new System.Drawing.Size(143, 66);
             this.convertButton.TabIndex = 20;
             this.convertButton.Text = "Convert and Save";
             this.convertButton.UseVisualStyleBackColor = true;
-            this.convertButton.Click += new System.EventHandler(this.convertButton_Click);
+            this.convertButton.Click += new System.EventHandler(this.ConvertButton_Click);
             // 
             // outputTextbox
             // 

@@ -14,8 +14,8 @@ namespace Encryptor_and_Decryptor
     public partial class Form1 : Form
     {
         //Declare variables needed in program
-        private FileReader fr;
-        private FileWriter fw;
+        private readonly FileReader fr;
+        private readonly FileWriter fw;
         private List<String> formattedText = new List<String>();
         private OpenFileDialog openFileDialog1;
         private string filepath;
@@ -72,22 +72,27 @@ namespace Encryptor_and_Decryptor
             outputTextbox.Clear();
         }
 
+        //Main method that runs whichever conversion method is chosen
         private void RunEncryptionMethod(string method,List<String> firstText,bool encrypt)
         {
             switch (method)
             {
                 case ("caesar"):
+                    //Creates an instance of the CaesarCypher class
                     CaesarCypher cc = new CaesarCypher();
+                    //Gets value to shift by
                     int shiftBy = Convert.ToInt32(shiftByUD.Value);
                     switch (encrypt)
                     {
                         case (true):
+                            //For each line of plaintext, encrypt
                             for (int i = 0; i < firstText.Count; i++)
                             {
                                 formattedText.Add(cc.EncryptLine(firstText[i], shiftBy));
                             }
                             break;
                         case (false):
+                            //For each line of encryptedtext, decrypt
                             for (int i = 0; i < firstText.Count; i++)
                             {
                                 formattedText.Add(cc.DecryptLine(firstText[i], shiftBy));
@@ -96,17 +101,21 @@ namespace Encryptor_and_Decryptor
                     }
                     break;
                 case ("keyword"):
+                    //Creates an instance of the KeywordEncryption class
                     KeywordEncryption ke = new KeywordEncryption();
-                    string keyword = keywordTextbox.Text;
+                    string keyword = (keywordTextbox.Text).ToUpper();
+                    //Checks is keyword is valid
                     invalid = ke.CheckKeyword(invalid, keyword);
                     if (invalid == false)
                     {
                         switch (encrypt)
                         {
                             case (true):
+                                //Gives entire text to be encrypted
                                 formattedText = ke.Encrypt(firstText, keyword);
                                 break;
                             case (false):
+                                //Gives entire text to be decrypted
                                 formattedText = ke.Decrypt(firstText, keyword);
                                 break;
                         }
@@ -115,6 +124,7 @@ namespace Encryptor_and_Decryptor
             }
         }
 
+        //Checks if any fields are clear, assigns value to boolean 'invalid'
         private void CheckIfClear()
         {
             invalid = false;
@@ -129,15 +139,16 @@ namespace Encryptor_and_Decryptor
         }
 
         //Action run upon clicking the convert button
-        private void convertButton_Click(object sender, EventArgs e)
+        private void ConvertButton_Click(object sender, EventArgs e)
         {
             try
             {
+                //Checks fields aren't clear
                 CheckIfClear();
                 if (invalid == true)
                 {
                     MessageBox.Show("Error: All fields should be filled", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    return; //Exits from try, catch
                 }
                 ClearVariables();
                 firstText = fr.ReadData(filepath);
@@ -150,12 +161,14 @@ namespace Encryptor_and_Decryptor
                         RunEncryptionMethod(method, firstText, false);
                         break;
                 }
+                //Checks for invalid keyword inside RunEncryptionMethod. If invalid, stops running further
                 if(invalid == true)
                 {
                     MessageBox.Show("Error: Keyword must use alphabetical characters only", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 SetOutputText(formattedText);
+                //Writes converted text to file
                 if ((methodCB.Text).Equals("Encrypt File"))
                 {
                     fw.WriteToFile(outputFilepath, formattedText, true);
@@ -165,6 +178,7 @@ namespace Encryptor_and_Decryptor
                     fw.WriteToFile(outputFilepath, formattedText, false);
                 }
             }
+            //Catch exceptions, display messages
             catch (FileNotFoundException exception)
             {
                 MessageBox.Show(exception.Message, "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -205,8 +219,10 @@ namespace Encryptor_and_Decryptor
             openOutputFolderDialog.Dispose();
         }
 
+        //Runs when text is changed in ConversionMethodCB
         private void ConversionMethodCB_TextChanged(object sender, EventArgs e)
         {
+            //Enables and disabled input boxes as required, clears input boxes, sets method variable
             if ((conversionMethodCB.Text).Equals("Caesar Cypher"))
             {
                 shiftByUD.Enabled = true;
@@ -223,6 +239,7 @@ namespace Encryptor_and_Decryptor
             }
         }
 
+        //Runs when ClearButton is pressed - clears and resets all input and output boxes
         private void ClearButton_Click(object sender, EventArgs e)
         {
             outputTextbox.Clear();
@@ -238,3 +255,4 @@ namespace Encryptor_and_Decryptor
         }
     }
 }
+//CHANGE FOLDER OUPUT TO FILE?

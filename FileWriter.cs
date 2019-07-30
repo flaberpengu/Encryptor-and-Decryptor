@@ -9,6 +9,7 @@ namespace Encryptor_and_Decryptor
 {
     class FileWriter
     {
+        //Adds file name to end of folder path based on if encryption or decryption was performed
         private string GetPath(string p, bool encrypt)
         {
             string path = p;
@@ -23,6 +24,8 @@ namespace Encryptor_and_Decryptor
             }
             return path;
         }
+
+        //Writes text line by line to file
         public void WriteToFile(string p, List<String> myText, bool encrypt)
         {
             string path = GetPath(p, encrypt);

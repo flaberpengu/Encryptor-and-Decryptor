@@ -9,6 +9,7 @@ namespace Encryptor_and_Decryptor
 {
     class FileReader
     {
+        //Reads data from given filepath, returns list of lines of data
         public List<String> ReadData(string path)
         {
             List<String> myText = new List<String>();
