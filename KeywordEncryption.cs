@@ -144,8 +144,23 @@ namespace Encryptor_and_Decryptor
             newTextList = ArrayToList(newTextArray);
             return newTextList;
         }
+
+        public bool CheckKeyword(bool invalid, string keyword)
+        {
+            char[] keyChars = new char[keyword.Length];
+            for (int i = 0; i < keyword.Length; i++)
+            {
+                keyChars[i] = keyword[i];
+            }
+            foreach (char ch in keyChars)
+            {
+                if (IsWhiteSpace(ch) || IsPunctuation(ch) || IsNumber(ch))
+                {
+                    invalid = true;
+                }
+            }
+            return invalid;
+        }
     }
 }
-//ADD CLEAR BUTTON (AFTER MERGING)
-//STOP MULTIPLE FILES BEING SELECTED
 //CHANGE FOLDER LOCATION TO FILE?

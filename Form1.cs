@@ -23,6 +23,7 @@ namespace Encryptor_and_Decryptor
         private FolderBrowserDialog openOutputFolderDialog;
         private List<String> firstText = new List<String>();
         private string method = "none";
+        private bool invalid;
 
         //Constructor
         public Form1()
@@ -97,16 +98,33 @@ namespace Encryptor_and_Decryptor
                 case ("keyword"):
                     KeywordEncryption ke = new KeywordEncryption();
                     string keyword = keywordTextbox.Text;
-                    switch (encrypt)
+                    invalid = ke.CheckKeyword(invalid, keyword);
+                    if (invalid == false)
                     {
-                        case (true):
-                            formattedText = ke.Encrypt(firstText, keyword);
-                            break;
-                        case (false):
-                            formattedText = ke.Decrypt(firstText, keyword);
-                            break;
+                        switch (encrypt)
+                        {
+                            case (true):
+                                formattedText = ke.Encrypt(firstText, keyword);
+                                break;
+                            case (false):
+                                formattedText = ke.Decrypt(firstText, keyword);
+                                break;
+                        }
                     }
                     break;
+            }
+        }
+
+        private void CheckIfClear()
+        {
+            invalid = false;
+            if ((filePathTextbox.Text).Equals("") || (methodCB.Text).Equals("") || (methodCB.Text).Equals(null) || (conversionMethodCB.Text).Equals("") || (conversionMethodCB.Text).Equals(null) || (outputPathTextbox.Text).Equals(""))
+            {
+                invalid = true;
+            }
+            else if ((keywordTextbox.Text).Equals("") && shiftByUD.Value == 0)
+            {
+                invalid = true;
             }
         }
 
@@ -115,6 +133,12 @@ namespace Encryptor_and_Decryptor
         {
             try
             {
+                CheckIfClear();
+                if (invalid == true)
+                {
+                    MessageBox.Show("Error: All fields should be filled", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 ClearVariables();
                 firstText = fr.ReadData(filepath);
                 switch (methodCB.Text)
@@ -125,6 +149,11 @@ namespace Encryptor_and_Decryptor
                     case ("Decrypt File"):
                         RunEncryptionMethod(method, firstText, false);
                         break;
+                }
+                if(invalid == true)
+                {
+                    MessageBox.Show("Error: Keyword must use alphabetical characters only", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
                 SetOutputText(formattedText);
                 if ((methodCB.Text).Equals("Encrypt File"))
