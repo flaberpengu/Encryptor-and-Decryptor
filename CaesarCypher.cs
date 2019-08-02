@@ -6,51 +6,12 @@ using System.Threading.Tasks;
 
 namespace Encryptor_and_Decryptor
 {
-    class CaesarCypher
+    public class CaesarCypher : Cypher
     {
-        //Checks if the character is a space; if so, returns true
-        private bool IsWhiteSpace(char ch)
-        {
-            bool isWhiteSpace = false;
-            if ((ch.ToString()).Equals(" "))
-            {
-                isWhiteSpace = true;
-            }
-            return isWhiteSpace;
-        }
-
-        //Checks if character is punctuation; if so, returns true
-        private bool IsPunctuation(char ch)
-        {
-            bool isPunctuation = false;
-            String[] punctuation = { ",", ".", "/", "?", ":", ";", "<", ">", "'", "@", "#", "~", "[", "]", "{", "}", "!", "\"", "£", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "\\", "|", "`", "¬" };
-            foreach (string s in punctuation)
-            {
-                if ((ch.ToString()).Equals(s))
-                {
-                    isPunctuation = true;
-                }
-            }
-            return isPunctuation;
-        }
-
-        //Checks if character is number; if so, returns true
-        private bool IsNumber(char ch)
-        {
-            bool isNumber = false;
-            String[] numbers = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-            foreach (string number in numbers)
-            {
-                if ((ch.ToString()).Equals(number))
-                {
-                    isNumber = true;
-                }
-            }
-            return isNumber;
-        }
+        private int shiftBy;
 
         //Encrypts a character by a given integer; returns encrypted character
-        private char ShiftPTE(char plainChar, int shiftBy)
+        private char ShiftPTE(char plainChar)
         {
             int plainVal = char.ToUpper(plainChar) - 65;
             int encVal = plainVal + shiftBy;
@@ -60,7 +21,7 @@ namespace Encryptor_and_Decryptor
         }
 
         //Decrypts a character by a given integer; returns decrypted character
-        private char ShiftETP(char encChar, int shiftBy)
+        private char ShiftETP(char encChar)
         {
             int encVal = char.ToUpper(encChar) - 65;
             int plainVal = encVal - shiftBy;
@@ -72,42 +33,56 @@ namespace Encryptor_and_Decryptor
             return plainChar;
         }
 
-        //Takes a line; encrypts and checks if special character cases; returns encrypted line
-        public string EncryptLine(string line, int shiftBy)
+        public override List<string> Encrypt()
         {
-            shiftBy %= 26;
+            List<String> encryptedList = new List<String>();
             string encryptedLine = "";
-            for (int i = 0; i < line.Length; i++)
+            for (int i = 0; i < myText.Count; i++)
             {
-                if (IsPunctuation(line[i]) || IsNumber(line[i]) || IsWhiteSpace(line[i]))
+                encryptedLine = "";
+                for (int j = 0; j < myText[i].Length; j++)
                 {
-                    encryptedLine += line[i];
+                    if (IsPunctuation(myText[i][j]) || IsNumber(myText[i][j]) || IsWhiteSpace(myText[i][j]))
+                    {
+                        encryptedLine += myText[i][j];
+                    }
+                    else
+                    {
+                        encryptedLine += ShiftPTE(myText[i][j]);
+                    }
                 }
-                else
-                {
-                    encryptedLine += ShiftPTE(line[i], shiftBy);
-                }
+                encryptedList.Add(encryptedLine);
             }
-            return encryptedLine;
+            return encryptedList;
         }
 
-        //Takes a line; decrypts it and checks is special character cases; returns decrypted line
-        public string DecryptLine(string line, int shiftBy)
+        public override List<String> Decrypt()
         {
-            shiftBy %= 26;
+            List<String> decryptedList = new List<String>();
             string decryptedLine = "";
-            for (int i = 0; i < line.Length; i++)
+            for (int i = 0; i < myText.Count; i++)
             {
-                if (IsPunctuation(line[i]) || IsNumber(line[i]) || IsWhiteSpace(line[i]))
+                decryptedLine = "";
+                for (int j = 0; j < myText[i].Length; j++)
                 {
-                    decryptedLine += line[i];
+                    if (IsPunctuation(myText[i][j]) || IsNumber(myText[i][j]) || IsWhiteSpace(myText[i][j]))
+                    {
+                        decryptedLine += myText[i][j];
+                    }
+                    else
+                    {
+                        decryptedLine += ShiftETP(myText[i][j]);
+                    }
                 }
-                else
-                {
-                    decryptedLine += ShiftETP(line[i], shiftBy);
-                }
+                decryptedList.Add(decryptedLine);
             }
-            return decryptedLine;
+            return decryptedList;
+        }
+
+        public CaesarCypher(List<String> inputText, int sb) : base(inputText)
+        {
+            sb %= 26;
+            shiftBy = sb;
         }
     }
 }

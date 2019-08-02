@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Encryptor_and_Decryptor
 {
-    class FileWriter
+    public class FileWriter
     {
         //Writes text line by line to file
         public void WriteToFile(string p, List<String> myText)

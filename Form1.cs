@@ -73,54 +73,48 @@ namespace Encryptor_and_Decryptor
             outputTextbox.Clear();
         }
 
+        private void RunCaesarCypher(List<String> firstText, bool encrypt)
+        {
+            int shiftBy = Convert.ToInt32(shiftByUD.Value);
+            Cypher cypher = new CaesarCypher(firstText, shiftBy);
+            if (encrypt)
+            {
+                formattedText = cypher.Encrypt();
+            }
+            else if (!encrypt)
+            {
+                formattedText = cypher.Decrypt();
+            }
+        }
+
+        private void RunKeywordCypher(List<String> firstText, bool encrypt)
+        {
+            string keyword = (keywordTextbox.Text).ToUpper();
+            Cypher cypher = new KeywordCypher(firstText, keyword);
+            invalid = cypher.CheckKeyword(invalid, keyword);
+            if (!invalid)
+            {
+                if (encrypt)
+                {
+                    formattedText = cypher.Encrypt();
+                }
+                else if (!encrypt)
+                {
+                    formattedText = cypher.Decrypt();
+                }
+            }
+        }
+
         //Main method that runs whichever conversion method is chosen
         private void RunEncryptionMethod(string method,List<String> firstText,bool encrypt)
         {
             switch (method)
             {
                 case ("caesar"):
-                    //Creates an instance of the CaesarCypher class
-                    CaesarCypher cc = new CaesarCypher();
-                    //Gets value to shift by
-                    int shiftBy = Convert.ToInt32(shiftByUD.Value);
-                    switch (encrypt)
-                    {
-                        case (true):
-                            //For each line of plaintext, encrypt
-                            for (int i = 0; i < firstText.Count; i++)
-                            {
-                                formattedText.Add(cc.EncryptLine(firstText[i], shiftBy));
-                            }
-                            break;
-                        case (false):
-                            //For each line of encryptedtext, decrypt
-                            for (int i = 0; i < firstText.Count; i++)
-                            {
-                                formattedText.Add(cc.DecryptLine(firstText[i], shiftBy));
-                            }
-                            break;
-                    }
+                    RunCaesarCypher(firstText, encrypt);
                     break;
                 case ("keyword"):
-                    //Creates an instance of the KeywordEncryption class
-                    KeywordEncryption ke = new KeywordEncryption();
-                    string keyword = (keywordTextbox.Text).ToUpper();
-                    //Checks is keyword is valid
-                    invalid = ke.CheckKeyword(invalid, keyword);
-                    if (invalid == false)
-                    {
-                        switch (encrypt)
-                        {
-                            case (true):
-                                //Gives entire text to be encrypted
-                                formattedText = ke.Encrypt(firstText, keyword);
-                                break;
-                            case (false):
-                                //Gives entire text to be decrypted
-                                formattedText = ke.Decrypt(firstText, keyword);
-                                break;
-                        }
-                    }
+                    RunKeywordCypher(firstText, encrypt);
                     break;
             }
         }
@@ -146,7 +140,7 @@ namespace Encryptor_and_Decryptor
             {
                 //Checks fields aren't clear
                 CheckIfClear();
-                if (invalid == true)
+                if (invalid)
                 {
                     MessageBox.Show("Error: All fields should be filled", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return; //Exits from try, catch
@@ -163,7 +157,7 @@ namespace Encryptor_and_Decryptor
                         break;
                 }
                 //Checks for invalid keyword inside RunEncryptionMethod. If invalid, stops running further
-                if(invalid == true)
+                if(invalid)
                 {
                     MessageBox.Show("Error: Keyword must use alphabetical characters only", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;

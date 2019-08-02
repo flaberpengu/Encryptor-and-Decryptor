@@ -6,48 +6,9 @@ using System.Threading.Tasks;
 
 namespace Encryptor_and_Decryptor
 {
-    class KeywordEncryption
+    public class KeywordCypher : Cypher
     {
-        //Checks if the character is a space; if so, returns true
-        private bool IsWhiteSpace(char ch)
-        {
-            bool isWhiteSpace = false;
-            if ((ch.ToString()).Equals(" "))
-            {
-                isWhiteSpace = true;
-            }
-            return isWhiteSpace;
-        }
-
-        //Checks if character is punctuation; if so, returns true
-        private bool IsPunctuation(char ch)
-        {
-            bool isPunctuation = false;
-            String[] punctuation = { ",", ".", "/", "?", ":", ";", "<", ">", "'", "@", "#", "~", "[", "]", "{", "}", "!", "\"", "£", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "\\", "|", "`", "¬" };
-            foreach (string s in punctuation)
-            {
-                if ((ch.ToString()).Equals(s))
-                {
-                    isPunctuation = true;
-                }
-            }
-            return isPunctuation;
-        }
-
-        //Checks if character is number; if so, returns true
-        private bool IsNumber(char ch)
-        {
-            bool isNumber = false;
-            String[] numbers = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-            foreach (string number in numbers)
-            {
-                if ((ch.ToString()).Equals(number))
-                {
-                    isNumber = true;
-                }
-            }
-            return isNumber;
-        }
+        private string keyword;
 
         //Adds characters (encrypts characters)
         private char AddChars(char initialChar, char keyChar)
@@ -94,10 +55,10 @@ namespace Encryptor_and_Decryptor
         }
 
         //Takes text, encrypts it, returns List
-        public List<String> Encrypt(List<String> firstText, string keyword)
+        public override List<String> Encrypt()
         {
             //Joins lines of text so encryption is easier (uses joiner that is highly unlikely to occur in any text file)
-            string allText = String.Join("@'@#@#@#@!><", firstText);
+            string allText = String.Join("@'@#@#@#@!><", myText);
             string[] splitters = { "@'@#@#@#@!><" };
             string newText = "";
             List<String> newTextList;
@@ -119,9 +80,9 @@ namespace Encryptor_and_Decryptor
                 else
                 {
                     newText += AddChars(allText[i], keyword[count]);
+                    count++;
                 }
-                //Increment count, MOD to loop back to 0 if needed
-                count++;
+                //MOD to loop back to 0 if needed
                 count %= ((keyword.Length) - 1);
             }
             //Puts into array using splitter, converts to list
@@ -130,11 +91,11 @@ namespace Encryptor_and_Decryptor
             return newTextList;
         }
 
-        //Takes text, decrypts it, returns list
-        public List<String> Decrypt(List<String> firstText, string keyword)
+        //Takes text, decrypts it, returns List
+        public override List<String> Decrypt()
         {
             //Joins lines of text so encryption is easier (uses joiner that is highly unlikely to occur in any text file)
-            string allText = String.Join("@'@#@#@#@!><", firstText);
+            string allText = String.Join("@'@#@#@#@!><", myText);
             string[] splitters = { "@'@#@#@#@!><" };
             string newText = "";
             List<String> newTextList;
@@ -156,9 +117,9 @@ namespace Encryptor_and_Decryptor
                 else
                 {
                     newText += SubChars(allText[i], keyword[count]);
+                    count++;
                 }
-                //Increment count, MOD to loop back to 0 if needed
-                count++;
+                //MOD to loop back to 0 if needed
                 count %= ((keyword.Length) - 1);
             }
             //Puts into array using splitter, converts to list
@@ -167,8 +128,7 @@ namespace Encryptor_and_Decryptor
             return newTextList;
         }
 
-        //Public method to check if keyword is invalid
-        public bool CheckKeyword(bool invalid, string keyword)
+        public override bool CheckKeyword(bool invalid, string keyword)
         {
             //Splits keyword into individual chars
             char[] keyChars = new char[keyword.Length];
@@ -185,6 +145,11 @@ namespace Encryptor_and_Decryptor
                 }
             }
             return invalid;
+        }
+
+        public KeywordCypher(List<String> inputText, string kw) : base (inputText)
+        {
+            keyword = kw;
         }
     }
 }
