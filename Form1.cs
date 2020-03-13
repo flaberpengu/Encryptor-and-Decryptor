@@ -243,4 +243,4 @@ namespace Encryptor_and_Decryptor
         }
     }
 }
-//CHANGE FOLDER OUPUT TO FILE?
+//COMMENT, REORDER, CLEAN CODE

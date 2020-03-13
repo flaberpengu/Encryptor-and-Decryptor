@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Encryptor_and_Decryptor
 {
-    public class KeywordCypher : Cypher
+    public class KeywordCypher : Cypher //Child class KeywordCypher, inherits from Cypher class
     {
+        //Class field
         private string keyword;
 
         //Adds characters (encrypts characters)
@@ -54,7 +55,7 @@ namespace Encryptor_and_Decryptor
             return final;
         }
 
-        //Takes text, encrypts it, returns List
+        //Encrypts text, returns List
         public override List<String> Encrypt()
         {
             //Joins lines of text so encryption is easier (uses joiner that is highly unlikely to occur in any text file)
@@ -91,7 +92,7 @@ namespace Encryptor_and_Decryptor
             return newTextList;
         }
 
-        //Takes text, decrypts it, returns List
+        //Decrypts text, returns List
         public override List<String> Decrypt()
         {
             //Joins lines of text so encryption is easier (uses joiner that is highly unlikely to occur in any text file)
@@ -128,6 +129,7 @@ namespace Encryptor_and_Decryptor
             return newTextList;
         }
 
+        //Checks if keyword is letters only, updates value of invalid
         public override bool CheckKeyword(bool invalid, string keyword)
         {
             //Splits keyword into individual chars
@@ -147,6 +149,7 @@ namespace Encryptor_and_Decryptor
             return invalid;
         }
 
+        //Constructor
         public KeywordCypher(List<String> inputText, string kw) : base (inputText)
         {
             keyword = kw;

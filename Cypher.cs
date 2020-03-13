@@ -8,10 +8,13 @@ namespace Encryptor_and_Decryptor
 {
     public abstract class Cypher
     {
+        //Field used by derived classes
         protected List<String> myText;
 
+        //Abstract method to encrypt
         public abstract List<String> Encrypt();
 
+        //Abstract method to decrypt
         public abstract List<String> Decrypt();
 
         //Checks if the character is a space; if so, returns true
@@ -55,11 +58,13 @@ namespace Encryptor_and_Decryptor
             return isNumber;
         }
 
+        //Base method for ChechKeyword - to be overridden
         public virtual bool CheckKeyword(bool invalid, string keyword)
         {
             return invalid;
         }
 
+        //Constructor
         public Cypher(List<String> inputText)
         {
             myText = inputText;

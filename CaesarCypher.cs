@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Encryptor_and_Decryptor
 {
-    public class CaesarCypher : Cypher
+    public class CaesarCypher : Cypher //Child class CaesarCypher, inherits from Cypher class
     {
+        //Class field
         private int shiftBy;
 
         //Encrypts a character by a given integer; returns encrypted character
@@ -33,48 +34,50 @@ namespace Encryptor_and_Decryptor
             return plainChar;
         }
 
+        //Encrypts text, returns List
         public override List<string> Encrypt()
         {
-            List<String> encryptedList = new List<String>();
-            string encryptedLine = "";
-            for (int i = 0; i < myText.Count; i++)
+            List<String> encryptedList = new List<String>(); //New list
+            string encryptedLine = ""; //Temp new string
+            for (int i = 0; i < myText.Count; i++) //For each line to encrypt
             {
                 encryptedLine = "";
-                for (int j = 0; j < myText[i].Length; j++)
+                for (int j = 0; j < myText[i].Length; j++) //For each character in line
                 {
-                    if (IsPunctuation(myText[i][j]) || IsNumber(myText[i][j]) || IsWhiteSpace(myText[i][j]))
+                    if (IsPunctuation(myText[i][j]) || IsNumber(myText[i][j]) || IsWhiteSpace(myText[i][j])) //Checks if character is letter
                     {
-                        encryptedLine += myText[i][j];
+                        encryptedLine += myText[i][j]; //If not, then don't encrypt
                     }
                     else
                     {
-                        encryptedLine += ShiftPTE(myText[i][j]);
+                        encryptedLine += ShiftPTE(myText[i][j]); //Otherwise, encrypt
                     }
                 }
-                encryptedList.Add(encryptedLine);
+                encryptedList.Add(encryptedLine); //Add lines to list
             }
             return encryptedList;
         }
 
+        //Decrypts text, returns List
         public override List<String> Decrypt()
         {
-            List<String> decryptedList = new List<String>();
-            string decryptedLine = "";
-            for (int i = 0; i < myText.Count; i++)
+            List<String> decryptedList = new List<String>(); //New list
+            string decryptedLine = ""; //Temp new string
+            for (int i = 0; i < myText.Count; i++) //For each line to decrypt
             {
                 decryptedLine = "";
-                for (int j = 0; j < myText[i].Length; j++)
+                for (int j = 0; j < myText[i].Length; j++) //For each character in line
                 {
-                    if (IsPunctuation(myText[i][j]) || IsNumber(myText[i][j]) || IsWhiteSpace(myText[i][j]))
+                    if (IsPunctuation(myText[i][j]) || IsNumber(myText[i][j]) || IsWhiteSpace(myText[i][j])) //Checks if character is letter
                     {
-                        decryptedLine += myText[i][j];
+                        decryptedLine += myText[i][j]; //If not, then don't encrypt
                     }
                     else
                     {
-                        decryptedLine += ShiftETP(myText[i][j]);
+                        decryptedLine += ShiftETP(myText[i][j]); //Otherwise, encrypt
                     }
                 }
-                decryptedList.Add(decryptedLine);
+                decryptedList.Add(decryptedLine); //Add lines to list
             }
             return decryptedList;
         }
